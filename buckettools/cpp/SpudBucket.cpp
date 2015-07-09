@@ -844,11 +844,13 @@ void SpudBucket::fill_meshes_(const std::string &optionpath)
     buffer.str(""); buffer << optionpath << "/source/lower_left";
     serr = Spud::get_option(buffer.str(), lowerleft); 
     spud_err(buffer.str(), serr);
+    const dolfin::Point lowerleftpoint(lowerleft.size(), lowerleft.data());
     
     std::vector<double> upperright;
     buffer.str(""); buffer << optionpath << "/source/upper_right";
     serr = Spud::get_option(buffer.str(), upperright); 
     spud_err(buffer.str(), serr);
+    const dolfin::Point upperrightpoint(upperright.size(), upperright.data());
     
     std::vector<int> cells;
     buffer.str(""); buffer << optionpath << "/source/number_cells";
@@ -860,8 +862,7 @@ void SpudBucket::fill_meshes_(const std::string &optionpath)
     serr = Spud::get_option(buffer.str(), diagonal); 
     spud_err(buffer.str(), serr);
     
-    mesh.reset(new dolfin::RectangleMesh(lowerleft[0], lowerleft[1], 
-                                    upperright[0], upperright[1], 
+    mesh.reset(new dolfin::RectangleMesh(lowerleftpoint, upperrightpoint, 
                                     cells[0], cells[1], diagonal));
 
     Side left(0, lowerleft[0]);
@@ -908,24 +909,21 @@ void SpudBucket::fill_meshes_(const std::string &optionpath)
                               << "/source/lower_back_left";
     serr = Spud::get_option(buffer.str(), lowerbackleft); 
     spud_err(buffer.str(), serr);
+    const dolfin::Point lowerbackleftpoint(lowerbackleft.size(), lowerbackleft.data());
     
     std::vector<double> upperfrontright;
     buffer.str(""); buffer << optionpath 
                             << "/source/upper_front_right";
     serr = Spud::get_option(buffer.str(), upperfrontright); 
     spud_err(buffer.str(), serr);
+    const dolfin::Point upperfrontrightpoint(upperfrontright.size(), upperfrontright.data());
     
     std::vector<int> cells;
     buffer.str(""); buffer << optionpath << "/source/number_cells";
     serr = Spud::get_option(buffer.str(), cells); 
     spud_err(buffer.str(), serr);
     
-    mesh.reset( new dolfin::BoxMesh(lowerbackleft[0], 
-                                lowerbackleft[1], 
-                                lowerbackleft[2],
-                                upperfrontright[0], 
-                                upperfrontright[1], 
-                                upperfrontright[2], 
+    mesh.reset( new dolfin::BoxMesh(lowerbackleftpoint, upperfrontrightpoint,
                                 cells[0], cells[1], cells[2]) );
 
     Side left(0, lowerbackleft[0]);
