@@ -143,7 +143,7 @@ namespace buckettools
     { return &start_walltime_; }
 
     static const double elapsed_walltime()                           // return the start time
-    { return timer_.elapsed().wall; }
+    { return timer_.elapsed().wall*1.e-9; }
 
     const int checkpoint_count() const;                              // return the checkpoint count
 
