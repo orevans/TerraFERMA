@@ -87,6 +87,7 @@ set(CMAKE_CXX_FLAGS "${BUCKETTOOLS_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
 # Add Mac specific loader flags
 if (APPLE)
   cmake_policy(SET CMP0068 NEW)
+  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-undefined,dynamic_lookup" CACHE STRING "should only be set if macosx" FORCE)
   # The RPATH to be used when installing, but only if it's not a
   # system directory
   SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
