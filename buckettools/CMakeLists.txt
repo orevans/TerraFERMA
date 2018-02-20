@@ -25,7 +25,7 @@ cmake_minimum_required(VERSION 2.8)
 #set(CMAKE_VERBOSE_MAKEFILE 1)
 
 # Set CMake behavior
-cmake_policy(SET CMP0004 OLD)
+cmake_policy(SET CMP0004 NEW)
 
 # The project name for buckettools (sets up environment variables for binary and source directories)
 project(BUCKETTOOLS)

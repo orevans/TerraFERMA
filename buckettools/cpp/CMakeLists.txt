@@ -86,12 +86,19 @@ set(CMAKE_CXX_FLAGS "${BUCKETTOOLS_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
 
 # Add Mac specific loader flags
 if (APPLE)
-  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-undefined,dynamic_lookup" CACHE STRING "should only be set if macosx" FORCE)
+  cmake_policy(SET CMP0068 NEW)
+  # The RPATH to be used when installing, but only if it's not a
+  # system directory
+  SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+  LIST(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
+  IF("${isSystemDir}" STREQUAL "-1")
+     SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+  ENDIF("${isSystemDir}" STREQUAL "-1")
   # Set a consistent MACOSX_RPATH default across all CMake versions.
   # When CMake 2.8.12 is required, change this default to 1.
   # When CMake 3.0.0 is required, remove this block (see CMP0042).
   if (NOT DEFINED CMAKE_MACOSX_RPATH)
-    set(CMAKE_MACOSX_RPATH 0)
+    set(CMAKE_MACOSX_RPATH 1)
   endif()
 endif()
 

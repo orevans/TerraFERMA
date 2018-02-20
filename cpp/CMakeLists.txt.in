@@ -30,7 +30,7 @@ project(TERRAFERMA)
 set(REQUIRED_TERRAFERMA_VERSION "@TERRAFERMA_VERSION_SHORT@")
 
 # Set CMake behavior
-cmake_policy(SET CMP0004 OLD)
+cmake_policy(SET CMP0004 NEW)
 
 # Default build type (can be overridden by user)
 set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING
