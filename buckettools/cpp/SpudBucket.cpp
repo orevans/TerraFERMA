@@ -32,6 +32,7 @@
 #include "Logger.h"
 #include <dolfin.h>
 #include <dolfin/mesh/MeshPartitioning.h>
+#include <dolfin/io/HDF5File.h>
 #include <spud>
 
 using namespace buckettools;
@@ -813,10 +814,20 @@ void SpudBucket::fill_meshes_(const std::string &optionpath)
     }
     else
     {
-      mesh.reset(new dolfin::Mesh(filename));
+      std::size_t pos = filename.rfind('.');
+      std::string extension = filename.substr(pos);                  // get file extension                                                                                                      
+      if (extension == ".h5")
+      {
+	mesh.reset(new dolfin::Mesh());
+	auto h5 = std::make_shared<dolfin::HDF5File>((*mesh).mpi_comm(), filename, "r");
+	h5->read(*mesh, "/mesh", false);
+      }
+      else
+      {
+	mesh.reset(new dolfin::Mesh(filename));
+      }
     }
     (*mesh).init();                                                  // initialize the mesh (maps between dimensions etc.)
-
   }
   else if (source=="UnitInterval")                                   // source is an internally generated dolfin mesh
   {

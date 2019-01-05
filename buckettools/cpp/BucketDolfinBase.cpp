@@ -50,7 +50,7 @@ std::string buckettools::xml_filename(const std::string& basename)
   std::ifstream file;
   std::stringstream filenamestream;
 
-  std::vector<std::string> extensions = {"", ".gz", ".xml", ".xml.gz"};
+  std::vector<std::string> extensions = {"", ".gz", ".xml", ".xml.gz", ".h5"};
   std::vector<std::string>::const_iterator ext_it;
   for (ext_it = extensions.begin(); ext_it != extensions.end(); ++ext_it)
   {
@@ -67,8 +67,8 @@ std::string buckettools::xml_filename(const std::string& basename)
   if (ext_it == extensions.end())
   {
     tf_err("Could not find requested xml file.",
-           "%s, %s.gz, %s.xml or %s.xml.gz not found.", 
-           basename.c_str(), basename.c_str(), basename.c_str(), basename.c_str());
+           "%s, %s.gz, %s.xml, %s.xml.gz or %s.h5 not found.", 
+           basename.c_str(), basename.c_str(), basename.c_str(), basename.c_str(), basename.c_str());
   }
 
   return filename;
